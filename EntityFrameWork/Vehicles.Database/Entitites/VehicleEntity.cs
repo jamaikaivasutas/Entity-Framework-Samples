@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vehicles.Database.Entitites;
 
-[Table("Vehicle")]  
+[Table("Vehicle")]
+[Index(nameof(LicensePlate), IsUnique = true)]
     public class VehicleEntity
     {
     [Key]
