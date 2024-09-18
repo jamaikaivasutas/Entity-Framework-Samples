@@ -3,6 +3,9 @@
 public class ApplicationDbContext : DbContext
 {
     public DbSet<VehicleEntity> Vehicles { get; set; }
+    public DbSet<ColorEntity> Colors { get; set; }
+    public DbSet<ManufacturerEntity> Manufacturers { get; set; }
+    public DbSet<ModelEntity> Models { get; set; }
 
     public ApplicationDbContext() : base()
     {

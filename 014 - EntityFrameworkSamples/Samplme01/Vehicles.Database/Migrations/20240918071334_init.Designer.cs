@@ -11,7 +11,7 @@ using Vehicles.Database;
 namespace Vehicles.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240912070058_init")]
+    [Migration("20240918071334_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -64,6 +64,63 @@ namespace Vehicles.Database.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Vehicles.Database.Entities.ManufacturerEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("ManufacturerEntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerEntityId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Manufacturer");
+                });
+
+            modelBuilder.Entity("Vehicles.Database.Entities.ModelEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ManufacturerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("ModelEntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("ModelEntityId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Model");
+                });
+
             modelBuilder.Entity("Vehicles.Database.Entities.VehicleEntity", b =>
                 {
                     b.Property<long>("Id")
@@ -90,6 +147,9 @@ namespace Vehicles.Database.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("nvarchar(7)");
 
+                    b.Property<long>("ModelId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("NumberOfDoors")
                         .HasColumnType("bigint");
 
@@ -106,7 +166,31 @@ namespace Vehicles.Database.Migrations
                     b.HasIndex("LicencePlate")
                         .IsUnique();
 
+                    b.HasIndex("ModelId");
+
                     b.ToTable("Vehicle");
+                });
+
+            modelBuilder.Entity("Vehicles.Database.Entities.ManufacturerEntity", b =>
+                {
+                    b.HasOne("Vehicles.Database.Entities.ManufacturerEntity", null)
+                        .WithMany("Manufacturers")
+                        .HasForeignKey("ManufacturerEntityId");
+                });
+
+            modelBuilder.Entity("Vehicles.Database.Entities.ModelEntity", b =>
+                {
+                    b.HasOne("Vehicles.Database.Entities.ManufacturerEntity", "Manufacturer")
+                        .WithMany()
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vehicles.Database.Entities.ModelEntity", null)
+                        .WithMany("Models")
+                        .HasForeignKey("ModelEntityId");
+
+                    b.Navigation("Manufacturer");
                 });
 
             modelBuilder.Entity("Vehicles.Database.Entities.VehicleEntity", b =>
@@ -117,11 +201,31 @@ namespace Vehicles.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Vehicles.Database.Entities.ModelEntity", "Model")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Color");
+
+                    b.Navigation("Model");
                 });
 
             modelBuilder.Entity("Vehicles.Database.Entities.ColorEntity", b =>
                 {
+                    b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("Vehicles.Database.Entities.ManufacturerEntity", b =>
+                {
+                    b.Navigation("Manufacturers");
+                });
+
+            modelBuilder.Entity("Vehicles.Database.Entities.ModelEntity", b =>
+                {
+                    b.Navigation("Models");
+
                     b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618

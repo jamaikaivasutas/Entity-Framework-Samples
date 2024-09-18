@@ -4,40 +4,47 @@ using Vehicles.Database.Entities;
 
 using var dbContext = new ApplicationDbContext();
 
-//adat hozzaadasa az adatbazishoz
-//var vehicle = new VehicleEntity
-//{
-//    ChassisNumber = "asigmaj642hghawk",
-//    EngineNumber = "DT",
-//    LicencePlate = "AAT598",
-//    NumberOfDoors = 5,
-//    Power = 148,
-//    Weight = 1500,
-//    ColorId= 2,
-//};
-
-//await dbContext.Vehicles.AddAsync(vehicle);
-//await dbContext.SaveChangesAsync();
-
-//rekord modositasa
-//var vehicle = await dbContext.Vehicles.FindAsync((uint)1);
-//vehicle.ChassisNumber = "11111111111111111";
-//await dbContext.SaveChangesAsync();
-
-//rekord torlese
-//var vehicle = await dbContext.Vehicles.FindAsync((uint)1);
-//dbContext.Vehicles.Remove(vehicle);
-//await dbContext.SaveChangesAsync();
-
-
-//adatok kiolvasasa az adatbazisbol
-var vehicles = await dbContext.Vehicles.Include(x => x.Color)
-                                    .ToListAsync();
-PrintVehiclesOnConsole(vehicles);
+await AddFirstVehicleToDB();
 
 Console.WriteLine("Done");
 Console.ReadKey();
 
+async Task AddFirstVehicleToDB()
+{
+    ManufacturerEntity mazda = new ManufacturerEntity
+    {
+        Name = "MAZDA"
+
+    };
+
+    await dbContext.Manufacturers.AddAsync(mazda);
+    await dbContext.SaveChangesAsync();
+
+
+    ModelEntity mazda2de = new ModelEntity
+    {
+        Name = "2 DE",
+        ManufacturerId = mazda.Id
+    };
+
+    await dbContext.Models.AddAsync(mazda2de);
+    await dbContext.SaveChangesAsync();
+
+    VehicleEntity vehicle = new VehicleEntity
+    {
+        ChassisNumber= "SIGMASKIBIDISIGMA",
+        ColorId = 1,
+        EngineNumber = "D2",
+        LicencePlate = "AAPFWR4",
+        ModelId = 1,
+        NumberOfDoors = 5,
+        Power = 86,
+        Weight = 980
+    };
+
+    await dbContext.Vehicles.AddAsync(vehicle);
+    await dbContext.SaveChangesAsync(); 
+}
 
 void PrintVehiclesOnConsole(ICollection<VehicleEntity> vehicles)
 {
