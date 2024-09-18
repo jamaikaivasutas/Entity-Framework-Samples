@@ -1,20 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Vehicles.Database.Entitites;
+﻿namespace Vehicles.Database.Entities;
 
 [Table("Vehicle")]
-[Index(nameof(LicensePlate), IsUnique = true)]
-    public class VehicleEntity
-    {
+[Index(nameof(LicencePlate), IsUnique = true)]
+public class VehicleEntity
+{
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public uint Id { get; set; }
 
     [Required]
     [StringLength(7)]
-    public string LicensePlate { get; set; }
+    public string LicencePlate { get; set; }
 
     [Required]
     [StringLength(17)]
@@ -25,7 +21,7 @@ namespace Vehicles.Database.Entitites;
     public string EngineNumber { get; set; }
 
     [Required]
-    [Range(2,5)]
+    [Range(2, 5)]
     public uint NumberOfDoors { get; set; }
 
     [Required]
@@ -34,5 +30,7 @@ namespace Vehicles.Database.Entitites;
     [Required]
     public uint Power { get; set; }
 
-    }
-
+    [ForeignKey("Color")]
+    public uint ColorId { get; set; }
+    public virtual ColorEntity Color { get; set; } //navigation property
+}
