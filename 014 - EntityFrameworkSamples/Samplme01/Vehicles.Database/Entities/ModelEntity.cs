@@ -17,7 +17,9 @@ public class ModelEntity
 
     public virtual ManufacturerEntity Manufacturer { get; set; }
 
-    public virtual IReadOnlyCollection<ModelEntity> Models { get; set; }
+    public virtual UsageEntity Usage { get; set; }
+
+    public virtual IReadOnlyCollection<ManufacturerEntity> Manufacturers { get; set; }
 
     public virtual IReadOnlyCollection<VehicleEntity> Vehicles { get; set; }
 }
