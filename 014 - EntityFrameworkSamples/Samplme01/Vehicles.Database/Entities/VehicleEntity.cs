@@ -36,7 +36,5 @@ public class VehicleEntity
 
     [ForeignKey("Model")]
     public uint ModelId { get; set; }
-
-    public virtual ModelEntity Model { get; set;} //navigation property
-
+    public virtual ModelEntity Model { get; set; } //navigation property
 }

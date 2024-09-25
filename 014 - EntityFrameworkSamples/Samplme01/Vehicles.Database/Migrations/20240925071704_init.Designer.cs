@@ -11,7 +11,7 @@ using Vehicles.Database;
 namespace Vehicles.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240918071334_init")]
+    [Migration("20240925071704_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace Vehicles.Database.Migrations
                         new
                         {
                             Id = 1L,
-                            Code = "FFFFFF",
+                            Code = "ffffff",
                             Name = "white"
                         },
                         new
@@ -72,17 +72,12 @@ namespace Vehicles.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("ManufacturerEntityId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManufacturerEntityId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -101,19 +96,14 @@ namespace Vehicles.Database.Migrations
                     b.Property<long>("ManufacturerId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ModelEntityId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("nvarchar(120)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ManufacturerId");
-
-                    b.HasIndex("ModelEntityId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -171,24 +161,13 @@ namespace Vehicles.Database.Migrations
                     b.ToTable("Vehicle");
                 });
 
-            modelBuilder.Entity("Vehicles.Database.Entities.ManufacturerEntity", b =>
-                {
-                    b.HasOne("Vehicles.Database.Entities.ManufacturerEntity", null)
-                        .WithMany("Manufacturers")
-                        .HasForeignKey("ManufacturerEntityId");
-                });
-
             modelBuilder.Entity("Vehicles.Database.Entities.ModelEntity", b =>
                 {
                     b.HasOne("Vehicles.Database.Entities.ManufacturerEntity", "Manufacturer")
-                        .WithMany()
+                        .WithMany("Models")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Vehicles.Database.Entities.ModelEntity", null)
-                        .WithMany("Models")
-                        .HasForeignKey("ModelEntityId");
 
                     b.Navigation("Manufacturer");
                 });
@@ -219,13 +198,11 @@ namespace Vehicles.Database.Migrations
 
             modelBuilder.Entity("Vehicles.Database.Entities.ManufacturerEntity", b =>
                 {
-                    b.Navigation("Manufacturers");
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("Vehicles.Database.Entities.ModelEntity", b =>
                 {
-                    b.Navigation("Models");
-
                     b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618

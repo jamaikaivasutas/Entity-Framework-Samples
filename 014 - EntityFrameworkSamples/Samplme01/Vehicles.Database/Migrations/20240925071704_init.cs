@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
@@ -33,17 +32,11 @@ namespace Vehicles.Database.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    ManufacturerEntityId = table.Column<long>(type: "bigint", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Manufacturer", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Manufacturer_Manufacturer_ManufacturerEntityId",
-                        column: x => x.ManufacturerEntityId,
-                        principalTable: "Manufacturer",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -52,9 +45,8 @@ namespace Vehicles.Database.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    ManufacturerId = table.Column<long>(type: "bigint", nullable: false),
-                    ModelEntityId = table.Column<long>(type: "bigint", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ManufacturerId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,11 +57,6 @@ namespace Vehicles.Database.Migrations
                         principalTable: "Manufacturer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Model_Model_ModelEntityId",
-                        column: x => x.ModelEntityId,
-                        principalTable: "Model",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -109,7 +96,7 @@ namespace Vehicles.Database.Migrations
                 columns: new[] { "Id", "Code", "Name" },
                 values: new object[,]
                 {
-                    { 1L, "FFFFFF", "white" },
+                    { 1L, "ffffff", "white" },
                     { 2L, "000000", "black" }
                 });
 
@@ -118,11 +105,6 @@ namespace Vehicles.Database.Migrations
                 table: "Color",
                 columns: new[] { "Name", "Code" },
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Manufacturer_ManufacturerEntityId",
-                table: "Manufacturer",
-                column: "ManufacturerEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Manufacturer_Name",
@@ -134,11 +116,6 @@ namespace Vehicles.Database.Migrations
                 name: "IX_Model_ManufacturerId",
                 table: "Model",
                 column: "ManufacturerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Model_ModelEntityId",
-                table: "Model",
-                column: "ModelEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Model_Name",

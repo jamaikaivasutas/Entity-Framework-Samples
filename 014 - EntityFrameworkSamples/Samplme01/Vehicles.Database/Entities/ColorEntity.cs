@@ -1,4 +1,5 @@
 ﻿namespace Vehicles.Database.Entities;
+
 [Table("Color")]
 [Index(nameof(Name), nameof(Code), IsUnique = true)]
 public class ColorEntity
@@ -15,5 +16,5 @@ public class ColorEntity
     [StringLength(6)]
     public string Code { get; set; }
 
-    public virtual IReadOnlyCollection<VehicleEntity> Vehicles { get; set; }//navigation property
+    public virtual IReadOnlyCollection<VehicleEntity> Vehicles { get; set; } //navigation property
 }

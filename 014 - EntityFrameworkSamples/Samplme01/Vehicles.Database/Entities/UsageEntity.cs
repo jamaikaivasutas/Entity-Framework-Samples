@@ -1,7 +1,7 @@
 ﻿namespace Vehicles.Database.Entities;
 
 [Table("Usage")]
-[Index(nameof(Name), IsUnique = true))]
+[Index(nameof(Name), IsUnique = true)]
 public class UsageEntity
 {
     [Key]
@@ -16,5 +16,5 @@ public class UsageEntity
     [StringLength(50)]
     public string Description { get; set; }
 
-    public virtual IReadOnlyCollection<ModelEntity> Models { get; set; }
+    public virtual IReadOnlyCollection<VehicleEntity> Vehicles { get; set; }
 }

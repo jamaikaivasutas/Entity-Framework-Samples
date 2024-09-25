@@ -2,5 +2,3 @@
 global using System.ComponentModel.DataAnnotations.Schema;
 global using Microsoft.EntityFrameworkCore;
 global using Vehicles.Database.Entities;
-global using Vehicles.Database;
-global using Vehicles.Database.Entities;
