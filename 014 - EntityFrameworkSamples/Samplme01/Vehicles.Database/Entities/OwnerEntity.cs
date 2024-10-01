@@ -21,4 +21,8 @@ public class OwnerEntity
     public string TAJ { get; set; }
 
     public virtual IReadOnlyCollection<VehicleEntity> Vehicles { get; set; }
+
+    public uint StreetId { get; set; }
+
+    public virtual StreetEntity Street { get; set; }
 }
